@@ -23,13 +23,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Map;
 
-//TODO: si numéro non rentré sur new Player, player = celui qui a le téléphone.
-//TODO: if name == "me", on affiche le role dans app
-
-
 //TODO: Ajouter lieux depuis activity location view : faire en utilisant tools ?
-
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,12 +47,8 @@ public class MainActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listPlayers);
 
         dataPlayers = new ArrayList<>();
-        dataPlayers.add(new Player("Oleg", "0659409883"));
         dataPlayers.add(new Player("Me", ""));
         dataPlayers.add(new Player("Denis", "0699733478"));
-        dataPlayers.add(new Player("Paul", "0659043628"));
-
-//        dataPlayers.add(new Player("Maman", "0699733478"));
 
         Button viewLocationButton = (Button) findViewById(R.id.viewLocationsButton);
         viewLocationButton.setOnClickListener(new View.OnClickListener() {
