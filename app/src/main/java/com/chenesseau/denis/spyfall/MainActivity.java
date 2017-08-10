@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
     TextView twRoleGameMaster;
     private static PlayerAdapter adapter;
 
+    private static String roleGameMasterMessage = "You haven't launched a party yet.";
+    private static String notClickedRoleGameMasterMessage = "Click to see your role ! (don't forget to launch a game first ;) )";
+
+
     private static final int PERMISSION_REQUEST_CODE = 1;
 
     @Override
@@ -43,6 +48,27 @@ public class MainActivity extends AppCompatActivity {
         Location.populateLocations();
 
         twRoleGameMaster = (TextView) findViewById(R.id.twGameMasterRole);
+        twRoleGameMaster.setText(notClickedRoleGameMasterMessage);
+
+        twRoleGameMaster.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                TextView twRoleGameMaster = (TextView) v.findViewById(R.id.twGameMasterRole);
+                String oldText = twRoleGameMaster.getText().toString();
+
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    // Pressed
+                    twRoleGameMaster.setText(MainActivity.roleGameMasterMessage);
+
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    // Released
+                    twRoleGameMaster.setText(MainActivity.notClickedRoleGameMasterMessage);
+                }
+                return true;
+
+            }
+        });
 
         listView = (ListView) findViewById(R.id.listPlayers);
 
@@ -188,7 +214,10 @@ public class MainActivity extends AppCompatActivity {
                     Log.i("Message", textMessage);
                     Log.i("MessageSent", "Message sent");
                 } else {
-                    twRoleGameMaster.setText(textMessage);
+
+                    this.roleGameMasterMessage = textMessage;
+
+                    twRoleGameMaster.setText(notClickedRoleGameMasterMessage);
 
                 }
             } catch (Exception ex) {
