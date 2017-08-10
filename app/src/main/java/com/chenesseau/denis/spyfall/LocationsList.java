@@ -31,8 +31,7 @@ public class LocationsList extends AppCompatActivity {
 
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-
-                Dialog
+                Toast.makeText(LocationsList.this, "Yooo", Toast.LENGTH_SHORT).show();
             }
         });
 
