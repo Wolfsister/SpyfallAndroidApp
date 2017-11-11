@@ -12,58 +12,61 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Current Players :"
-        android:textSize="15dp"/>
+        android:textSize="15dp" />
 
-   <ListView
-       android:layout_width="match_parent"
-       android:layout_height="280dp"
-       android:id="@+id/listPlayers"
-       >
+    <ListView
+        android:id="@+id/listPlayers"
+        android:layout_width="match_parent"
+        android:layout_height="280dp">
 
-   </ListView>
+    </ListView>
 
     <Button
+        android:id="@+id/addPlayerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Player"
         android:layout_gravity="right"
-        android:id="@+id/addPlayerButton"
         android:backgroundTint="@android:color/holo_green_light"
-        />
+        android:text="Add Player" />
 
     <TextView
+        android:id="@+id/twGameMasterRole"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Game Master Role"
         android:textSize="20dp"
-        android:id="@+id/twGameMasterRole"
 
         />
 
     <Button
+        android:id="@+id/buttonStartGame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Start the game !"
         android:backgroundTint="@android:color/holo_blue_light"
-        android:id="@+id/buttonStartGame"/>
+        android:text="Start the game !" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:gravity="center"
-        >
+        android:orientation="horizontal">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="View Locations"
-        android:id="@+id/viewLocationsButton"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Reset locations"/>
+        <Button
+            android:id="@+id/viewLocationsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View Locations" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reset locations" />
+
+        <Button
+            android:id="@+id/testFromContacts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ProvisoireContact" />
     </LinearLayout>
 
 </LinearLayout>

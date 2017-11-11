@@ -7,6 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.ContactsContract;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private static final int PERMISSION_REQUEST_CODE = 1;
+
+    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +82,13 @@ public class MainActivity extends AppCompatActivity {
 
         dataPlayers = new ArrayList<>();
         dataPlayers.add(new Player("Me", ""));
-        dataPlayers.add(new Player("Denis", "0699733478"));
+        dataPlayers.add(new Player("Margaux", "0770382532"));
+        dataPlayers.add(new Player("Sasha", "0676393914"));
+        dataPlayers.add(new Player("Kevin", "0625991482"));
+        dataPlayers.add(new Player("Jolan", "0611806305"));
+        dataPlayers.add(new Player("ChiTai", "0672597707"));
+        dataPlayers.add(new Player("Thomas", "0637682755"));
+        dataPlayers.add(new Player("Anthony", "0647080069"));
 
         Button viewLocationButton = (Button) findViewById(R.id.viewLocationsButton);
         viewLocationButton.setOnClickListener(new View.OnClickListener() {
@@ -114,10 +128,17 @@ public class MainActivity extends AppCompatActivity {
                 requestPermissions(permissions, PERMISSION_REQUEST_CODE);
 
             }
+
+            if (checkSelfPermission(Manifest.permission.READ_CONTACTS)
+                    == PackageManager.PERMISSION_DENIED) {
+
+                Log.d("permission", "permission denied to READ_CONTACTS - requesting it");
+                String[] permissions = {Manifest.permission.READ_CONTACTS};
+
+                requestPermissions(permissions, PERMISSION_REQUEST_CODE);
+
+            }
         }
-
-
-//        sendRoles();
 
         adapter = new PlayerAdapter(dataPlayers, getApplicationContext());
 
@@ -166,9 +187,111 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button selectFromContacts = (Button) findViewById(R.id.testFromContacts);
+
+        selectFromContacts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Toast.makeText(MainActivity.this, "From Contacts Clicked", Toast.LENGTH_SHORT).show();
+
+//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                // BoD con't: CONTENT_TYPE instead of CONTENT_ITEM_TYPE
+                Intent i = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                startActivityForResult(i, 1001);
+
+            }
+
+        });
+
+
+//
+//        if (ContextCompat.checkSelfPermission(this,
+//                Manifest.permission.READ_CONTACTS)
+//                != PackageManager.PERMISSION_GRANTED) {
+//
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+//                    Manifest.permission.READ_CONTACTS)) {
+//                //Cela signifie que la permission à déjà était
+//                //demandé et l'utilisateur l'a refusé
+//                //Vous pouvez aussi expliquer à l'utilisateur pourquoi
+//                //cette permission est nécessaire et la redemander
+//                Toast.makeText(this, "For a better experience, you should enable the contact reading to import players", Toast.LENGTH_SHORT).show();
+//            } else {
+//                //Sinon demander la permission
+//                ActivityCompat.requestPermissions(this,
+//                        new String[]{Manifest.permission.READ_CONTACTS},
+//                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+//            }
+//        }
+
+
+
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch(requestCode) {
+            case 1001:
+
+                if (resultCode == Activity.RESULT_OK) {
+                    if (ContextCompat.checkSelfPermission(this,
+                            Manifest.permission.READ_CONTACTS)
+                            == PackageManager.PERMISSION_GRANTED) {
+
+                        Cursor cursor = null;
+
+                        try {
+                            String phoneNo = null ;
+                            String name = null;
+                            Uri uri = data.getData();
+                            cursor = getContentResolver().query(uri, null, null, null, null);
+                            cursor.moveToFirst();
+                            int phoneIndex =cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+                            phoneNo = cursor.getString(phoneIndex);
+
+                            Cursor contactCursor = getContentResolver().query(uri,
+                                    new String[] { ContactsContract.Contacts._ID }, null, null,
+                                    null);
+                            String id = null;
+                            if (contactCursor.moveToFirst()) {
+                                id = contactCursor.getString(contactCursor
+                                        .getColumnIndex(ContactsContract.Contacts._ID));
+                            }
+                            contactCursor.close();
+                            String phoneNumber = null;
+                            Cursor phoneCursor = getContentResolver().query(
+                                    ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                                    new String[] { ContactsContract.CommonDataKinds.Phone.NUMBER },
+                                    ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "= ? ",
+                                    new String[] { id }, null);
+                            if (phoneCursor.moveToFirst()) {
+                                phoneNumber = phoneCursor
+                                        .getString(phoneCursor
+                                                .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                            }
+                            phoneCursor.close();
+
+                            Log.e("MainActivity", "Contact fetched");
+                            Log.e("MainActivity", phoneNo);
+                            Log.e("MainActivity", phoneNumber);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    }
+                } else {
+                    Log.e("MainActivity", "Failed to pick contact");
+                }
+
+            default:
+                break;
+
+        }
+    }
 
     protected void addPlayer(String name, String phoneNo) {
 
@@ -209,8 +332,6 @@ public class MainActivity extends AppCompatActivity {
 
                 if(!phoneNumber.equals("Me")) {
                     smsManager.sendTextMessage(phoneNumber, null, textMessage, null, null);
-//                Toast.makeText(getApplicationContext(), "Message Sent",
-//                        Toast.LENGTH_LONG).show();
                     Log.i("Message", textMessage);
                     Log.i("MessageSent", "Message sent");
                 } else {
@@ -221,8 +342,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             } catch (Exception ex) {
-//                Toast.makeText(getApplicationContext(), ex.getMessage().toString(),
-//                        Toast.LENGTH_LONG).show();
+                Log.d("ExceptionSending", ex.getMessage().toString());
                 ex.printStackTrace();
             }
 
