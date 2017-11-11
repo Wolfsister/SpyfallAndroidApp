@@ -1,48 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="10dp">
 
 
     <TextView
 
-        android:layout_marginTop="20dp"
+        android:id="@+id/nameAddPlayerTw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Name"
         android:layout_gravity="center"
-        android:textSize="25dp"
-        android:id="@+id/nameAddPlayerTw"/>
+        android:layout_marginTop="20dp"
+        android:text="Name"
+        android:textSize="25dp" />
 
     <EditText
+        android:id="@+id/nameAddPlayerEt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Type the name of the new player"
-        android:id="@+id/nameAddPlayerEt"/>
+        android:hint="Type the name of the new player" />
 
     <TextView
 
-        android:layout_marginTop="20dp"
+        android:id="@+id/phoneAddPlayerTw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Phone Number"
         android:layout_gravity="center"
-        android:textSize="25dp"
-        android:id="@+id/phoneAddPlayerTw"/>
+        android:layout_marginTop="20dp"
+        android:text="Phone Number"
+        android:textSize="25dp" />
 
     <EditText
+        android:id="@+id/phoneAddPlayerEt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Type the phone no of the new player (ex : 0699733478)"
-        android:id="@+id/phoneAddPlayerEt"
-        android:inputType="phone"/>
+        android:inputType="phone" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Player"
-        android:id="@+id/buttonAddPlayerOnDialog"
-        android:layout_gravity="right"
-        android:layout_marginRight="10dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/testFromContactsfake"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="Add from contacts (fake)" />
+
+        <Button
+            android:id="@+id/buttonAddPlayerOnDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="10dp"
+            android:text="Add Player" />
+    </LinearLayout>
 </LinearLayout>

@@ -203,30 +203,6 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-
-//
-//        if (ContextCompat.checkSelfPermission(this,
-//                Manifest.permission.READ_CONTACTS)
-//                != PackageManager.PERMISSION_GRANTED) {
-//
-//            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-//                    Manifest.permission.READ_CONTACTS)) {
-//                //Cela signifie que la permission à déjà était
-//                //demandé et l'utilisateur l'a refusé
-//                //Vous pouvez aussi expliquer à l'utilisateur pourquoi
-//                //cette permission est nécessaire et la redemander
-//                Toast.makeText(this, "For a better experience, you should enable the contact reading to import players", Toast.LENGTH_SHORT).show();
-//            } else {
-//                //Sinon demander la permission
-//                ActivityCompat.requestPermissions(this,
-//                        new String[]{Manifest.permission.READ_CONTACTS},
-//                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
-//            }
-//        }
-
-
-
-
     }
 
     @Override
@@ -244,13 +220,13 @@ public class MainActivity extends AppCompatActivity {
                         Cursor cursor = null;
 
                         try {
-                            String phoneNo = null ;
+                            String contactName = null ;
                             String name = null;
                             Uri uri = data.getData();
                             cursor = getContentResolver().query(uri, null, null, null, null);
                             cursor.moveToFirst();
                             int phoneIndex =cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
-                            phoneNo = cursor.getString(phoneIndex);
+                            contactName = cursor.getString(phoneIndex);
 
                             Cursor contactCursor = getContentResolver().query(uri,
                                     new String[] { ContactsContract.Contacts._ID }, null, null,
@@ -275,8 +251,15 @@ public class MainActivity extends AppCompatActivity {
                             phoneCursor.close();
 
                             Log.e("MainActivity", "Contact fetched");
-                            Log.e("MainActivity", phoneNo);
+                            Log.e("MainActivity", contactName);
                             Log.e("MainActivity", phoneNumber);
+
+
+                            if (!phoneNumber.isEmpty() && !contactName.isEmpty()) {
+                                addPlayer(contactName, phoneNumber);
+                            } else {
+
+                            }
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -303,6 +286,9 @@ public class MainActivity extends AppCompatActivity {
         if (!dataPlayers.contains(newPlayer)) {
 
             dataPlayers.add(newPlayer);
+            Log.d("AddPlayer", "Player added");
+            Log.d("ListPlayers", dataPlayers.toString());
+            adapter.notifyDataSetChanged();
         } else {
             Toast.makeText(getApplicationContext(), "Player already in the game",
                     Toast.LENGTH_LONG).show();
@@ -311,9 +297,6 @@ public class MainActivity extends AppCompatActivity {
 
     protected void sendRoles() {
 
-//        if (dataPlayers.size()< 3) {
-//            Toast.makeText(this, "You must add more players first !", Toast.LENGTH_SHORT).show();
-//        }
         Map<String, String> rolesPerContact = Location.setRolesPerContact(dataPlayers);
 
         Log.i("rolespercontact", rolesPerContact.toString());
