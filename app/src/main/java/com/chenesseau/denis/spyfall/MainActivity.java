@@ -82,13 +82,6 @@ public class MainActivity extends AppCompatActivity {
 
         dataPlayers = new ArrayList<>();
         dataPlayers.add(new Player("Me", ""));
-        dataPlayers.add(new Player("Margaux", "0770382532"));
-        dataPlayers.add(new Player("Sasha", "0676393914"));
-        dataPlayers.add(new Player("Kevin", "0625991482"));
-        dataPlayers.add(new Player("Jolan", "0611806305"));
-        dataPlayers.add(new Player("ChiTai", "0672597707"));
-        dataPlayers.add(new Player("Thomas", "0637682755"));
-        dataPlayers.add(new Player("Anthony", "0647080069"));
 
         Button viewLocationButton = (Button) findViewById(R.id.viewLocationsButton);
         viewLocationButton.setOnClickListener(new View.OnClickListener() {
