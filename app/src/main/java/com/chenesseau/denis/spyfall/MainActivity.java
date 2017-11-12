@@ -215,6 +215,7 @@ public class MainActivity extends AppCompatActivity {
                             cursor.moveToFirst();
                             int phoneIndex =cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
                             contactName = cursor.getString(phoneIndex);
+                            contactName = contactName.split(" ")[0]; // Get only the first name of contact.
 
                             Cursor contactCursor = getContentResolver().query(uri,
                                     new String[] { ContactsContract.Contacts._ID }, null, null,
