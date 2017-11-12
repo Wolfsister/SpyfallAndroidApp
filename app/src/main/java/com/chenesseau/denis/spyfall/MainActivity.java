@@ -149,10 +149,21 @@ public class MainActivity extends AppCompatActivity {
                 final EditText nameNewPlayer = (EditText) mView.findViewById(R.id.nameAddPlayerEt);
                 final EditText phoneNewPlayer = (EditText) mView.findViewById(R.id.phoneAddPlayerEt);
                 Button buttonAddPlayerDialog = (Button) mView.findViewById(R.id.buttonAddPlayerOnDialog);
+                Button selectFromContacts = (Button) mView.findViewById(R.id.addFromContactsPhone);
 
                 mBuilder.setView(mView);
                 final AlertDialog dialog = mBuilder.create();
                 dialog.show();
+
+                selectFromContacts.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                        startActivityForResult(i, 1001);
+                        dialog.dismiss();
+                    }
+
+                });
 
                 buttonAddPlayerDialog.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -178,22 +189,6 @@ public class MainActivity extends AppCompatActivity {
                 });
 
             }
-        });
-
-        Button selectFromContacts = (Button) findViewById(R.id.testFromContacts);
-
-        selectFromContacts.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Toast.makeText(MainActivity.this, "From Contacts Clicked", Toast.LENGTH_SHORT).show();
-
-//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                // BoD con't: CONTENT_TYPE instead of CONTENT_ITEM_TYPE
-                Intent i = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-                startActivityForResult(i, 1001);
-
-            }
-
         });
 
     }
@@ -251,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
                             if (!phoneNumber.isEmpty() && !contactName.isEmpty()) {
                                 addPlayer(contactName, phoneNumber);
                             } else {
-
+                                Toast.makeText(MainActivity.this, "The player couldn't be added. Check you contact's infos.", Toast.LENGTH_LONG).show();
                             }
 
                         } catch (Exception e) {
