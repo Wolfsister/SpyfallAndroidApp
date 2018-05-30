@@ -26,7 +26,7 @@ public class Location {
         LOCATIONS.add("Garage Automobile");
         LOCATIONS.add("Cirque");
         LOCATIONS.add("Hôpital");
-        LOCATIONS.add("Croisades");
+        LOCATIONS.add("Gala");
         LOCATIONS.add("Train");
         LOCATIONS.add("Banque");
         LOCATIONS.add("Avion");
@@ -46,6 +46,17 @@ public class Location {
         LOCATIONS.add("Casino");
         LOCATIONS.add("Cathédrale");
         LOCATIONS.add("Marché");
+        LOCATIONS.add("Squat");
+        LOCATIONS.add("Muscu");
+        LOCATIONS.add("Grotte");
+        LOCATIONS.add("Stade");
+        LOCATIONS.add("Cimetière");
+        LOCATIONS.add("Usine");
+        LOCATIONS.add("Kebab");
+        LOCATIONS.add("DTC");
+        LOCATIONS.add("Camping");
+        LOCATIONS.add("Club Echangiste");
+        LOCATIONS.add("La Poste");
 
     }
 
@@ -159,7 +170,37 @@ public class Location {
         return mapNumbersRoles;
     }
 
+    public static Map<String, String> setDifferentLocationPerContact(ArrayList<Player> listPlayers) {
 
+        Map<String, String> mapNumbersRoles = new HashMap<String, String>();
+        int nbPlayers = listPlayers.size();
+        Log.i("nbPlayer", Integer.toString(nbPlayers));
+
+        for (int i = 0; i < nbPlayers; i++) {
+
+            int randomIndex = (int) Math.floor(Math.random() * LOCATIONS.size());
+            String location = LOCATIONS.get(randomIndex);
+
+            Log.d("i in setRoles", Integer.toString(i));
+            Player player = listPlayers.get(i);
+            String playerName = player.getName();
+            String playerPhoneNumber = player.getPhoneNumber();
+            Log.d("setRole", playerName);
+            if (playerName.trim().toLowerCase().equals("me")) {
+                Log.d("inParticularCase", "Yes");
+                playerPhoneNumber = "Me";
+            }
+            Log.d("setRole", playerPhoneNumber);
+
+            Log.d("Player", player.toString());
+
+            mapNumbersRoles.put(playerPhoneNumber, playerName + ", vous êtes ici : " + location +". Démasquez l'espion !");
+
+            Log.d("Map Roles", mapNumbersRoles.toString());
+        }
+
+        return mapNumbersRoles;
+    }
 
 }
 

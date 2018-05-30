@@ -115,6 +115,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button buttonStartTheGameDifferentLocations = (Button) findViewById(R.id.buttonStartOnlyLocations);
+        buttonStartTheGameDifferentLocations.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendLocationToEverybody();
+            }
+        });
+
 
         // permission to send SMS
 
@@ -310,12 +318,13 @@ public class MainActivity extends AppCompatActivity {
             try {
 
                 if(!phoneNumber.equals("Me")) {
-//                    smsManager.sendTextMessage(phoneNumber, null, textMessage, null, null);
+                    smsManager.sendTextMessage(phoneNumber, null, textMessage, null, null);
                     Log.i("Message", textMessage);
                     Log.i("MessageSent", "Message sent");
                 } else {
 
                     this.roleGameMasterMessage = textMessage;
+                    Log.i("Message", textMessage);
 
                     twRoleGameMaster.setText(notClickedRoleGameMasterMessage);
 
@@ -338,6 +347,12 @@ public class MainActivity extends AppCompatActivity {
     protected void sendRolesSpy() {
 
         Map<String, String> rolesPerContact = Location.setSpyRoleContact(dataPlayers);
+        sendSMS(rolesPerContact);
+    }
+
+    protected void sendLocationToEverybody() {
+
+        Map<String, String> rolesPerContact = Location.setDifferentLocationPerContact(dataPlayers);
         sendSMS(rolesPerContact);
     }
 }
