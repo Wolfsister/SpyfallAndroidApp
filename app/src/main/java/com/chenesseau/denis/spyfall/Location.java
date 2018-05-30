@@ -129,28 +129,36 @@ public class Location {
 
         return mapNumbersRoles;
     }
-//
-//    public void sendSMS(Map<String, String> numbersAndRoles) {
-//
-//        try {
-//            SmsManager smsManager = SmsManager.getDefault();
-//
-//            for (Map.Entry<String, String> info : numbersAndRoles.entrySet()) {
-//                smsManager.sendTextMessage(info.getKey(), null, info.getValue(), null, null);
-//
-//            }
-//
-//            Toast.makeText(getApplicationContext(), "Messages Sent",
-//                    Toast.LENGTH_LONG).show();
-//
-//
-//        } catch (Exception ex) {
-//            Toast.makeText(getApplicationContext(), ex.getMessage().toString(),
-//                    Toast.LENGTH_LONG).show();
-//            ex.printStackTrace();
-//        }
-//
-//    }
+
+
+    public static Map<String, String> setSpyRoleContact(ArrayList<Player> listPlayers) {
+
+        Map<String, String> mapNumbersRoles = new HashMap<String, String>();
+        int nbPlayers = listPlayers.size();
+        Log.i("nbPlayer", Integer.toString(nbPlayers));
+
+        for (int i = 0; i < nbPlayers; i++) {
+
+            Player player = listPlayers.get(i);
+            String playerName = player.getName();
+            String playerPhoneNumber = player.getPhoneNumber();
+            Log.d("setRole", playerName);
+            if (playerName.trim().toLowerCase().equals("me")) {
+                Log.d("inParticularCase", "Yes");
+                playerPhoneNumber = "Me";
+            }
+            Log.d("setRole", playerPhoneNumber);
+
+            Log.d("Player", player.toString());
+
+            mapNumbersRoles.put(playerPhoneNumber, playerName + ", tu es espion, découvre où tu es !");
+
+            Log.d("Map Roles", mapNumbersRoles.toString());
+        }
+
+        return mapNumbersRoles;
+    }
+
 
 
 }

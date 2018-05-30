@@ -107,6 +107,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button buttonStartTheGameSpys = (Button) findViewById(R.id.buttonStartGameSpys);
+        buttonStartTheGameSpys.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendRolesSpy();
+            }
+        });
+
 
         // permission to send SMS
 
@@ -284,9 +292,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    protected void sendRoles() {
+    protected void sendSMS(Map<String, String> rolesPerContact) {
 
-        Map<String, String> rolesPerContact = Location.setRolesPerContact(dataPlayers);
 
         Log.i("rolespercontact", rolesPerContact.toString());
         int cmp = 0;
@@ -303,7 +310,7 @@ public class MainActivity extends AppCompatActivity {
             try {
 
                 if(!phoneNumber.equals("Me")) {
-                    smsManager.sendTextMessage(phoneNumber, null, textMessage, null, null);
+//                    smsManager.sendTextMessage(phoneNumber, null, textMessage, null, null);
                     Log.i("Message", textMessage);
                     Log.i("MessageSent", "Message sent");
                 } else {
@@ -319,7 +326,18 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    protected void sendRoles() {
+
+        Map<String, String> rolesPerContact = Location.setRolesPerContact(dataPlayers);
+        sendSMS(rolesPerContact);
 
     }
 
+    protected void sendRolesSpy() {
+
+        Map<String, String> rolesPerContact = Location.setSpyRoleContact(dataPlayers);
+        sendSMS(rolesPerContact);
+    }
 }
